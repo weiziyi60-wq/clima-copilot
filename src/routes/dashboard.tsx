@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Link } from "@tanstack/react-router";
 import { AuroraBackground } from "@/components/clima/aurora-background";
 import { SiteHeader } from "@/components/clima/site-header";
 import { SiteFooter } from "@/components/clima/site-footer";
