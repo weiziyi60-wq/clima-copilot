@@ -148,30 +148,31 @@ export const Route = createFileRoute("/api/ask-clima")({
         let buffer = "";
 
         const stream = new ReadableStream<Uint8Array>({
-          async pull(controller) {
-            const { done, value } = await reader.read();
-            if (done) {
-              controller.close();
-              return;
-            }
-            buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split("\n");
-            buffer = lines.pop() ?? "";
-            for (const line of lines) {
-              if (!line.startsWith("data:")) continue;
-              const payload = line.slice(5).trim();
-              if (!payload || payload === "[DONE]") continue;
-              try {
-                const event = JSON.parse(payload) as {
-                  type?: string;
-                  delta?: string;
-                };
-                if (event.type === "response.output_text.delta" && event.delta) {
-                  controller.enqueue(encoder.encode(event.delta));
+          async start(controller) {
+            try {
+              for (;;) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split("\n");
+                buffer = lines.pop() ?? "";
+                for (const line of lines) {
+                  if (!line.startsWith("data:")) continue;
+                  const payload = line.slice(5).trim();
+                  if (!payload || payload === "[DONE]") continue;
+                  try {
+                    const event = JSON.parse(payload) as { type?: string; delta?: string };
+                    if (event.type === "response.output_text.delta" && event.delta) {
+                      controller.enqueue(encoder.encode(event.delta));
+                    }
+                  } catch {
+                    /* ignore partial or non-JSON frames */
+                  }
                 }
-              } catch {
-                /* ignore partial or non-JSON frames */
               }
+              controller.close();
+            } catch (err) {
+              controller.error(err);
             }
           },
           cancel(reason) {
