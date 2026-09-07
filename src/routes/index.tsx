@@ -139,7 +139,7 @@ function IndexPage() {
             </div>
 
             {/* flow line */}
-            <div className="mt-8 flex items-center justify-center gap-3 text-xs text-muted-foreground">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-foreground/75">
               <span>Input design parameters</span>
               <span className="text-brand">→</span>
               <span>Analyse environmental performance</span>
