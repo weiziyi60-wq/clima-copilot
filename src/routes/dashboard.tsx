@@ -4,6 +4,8 @@ import { AuroraBackground } from "@/components/clima/aurora-background";
 import { SiteHeader } from "@/components/clima/site-header";
 import { SiteFooter } from "@/components/clima/site-footer";
 import { RangeSlider } from "@/components/clima/range-slider";
+import { AskClima } from "@/components/clima/ask-clima";
+
 import {
   MAX,
   METHODOLOGY_DISCLAIMER,
@@ -51,6 +53,7 @@ function DashboardPage() {
   const [greenery, setGreenery] = useState<Greenery>("Medium");
 
   const [result, setResult] = useState<ScoreResult | null>(null);
+  const [analysedInputs, setAnalysedInputs] = useState<DesignInputs | null>(null);
   const [analysing, setAnalysing] = useState(false);
   const [runId, setRunId] = useState(0);
 
@@ -59,6 +62,8 @@ function DashboardPage() {
     setAnalysing(true);
     window.setTimeout(() => {
       setResult(scoreDesign(inputs));
+      setAnalysedInputs(inputs);
+
       setRunId((n) => n + 1);
       setAnalysing(false);
     }, 650);
@@ -296,9 +301,12 @@ function DashboardPage() {
                     </div>
                   </div>
 
+                  {analysedInputs && <AskClima inputs={analysedInputs} result={result} />}
+
                   <p className="border-t border-glass-border pt-5 text-[11px] leading-relaxed text-muted-foreground">
                     {METHODOLOGY_DISCLAIMER}
                   </p>
+
                 </>
               )}
             </section>
