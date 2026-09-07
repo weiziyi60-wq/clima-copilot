@@ -99,6 +99,7 @@ export const Route = createFileRoute("/api/ask-clima")({
           .filter(Boolean)
           .join("\n");
 
+        console.error("ask-clima: key?", Boolean(apiKey), "calling gateway");
         let upstream: Response;
         try {
           upstream = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
@@ -123,6 +124,7 @@ export const Route = createFileRoute("/api/ask-clima")({
           );
         }
 
+        console.error("ask-clima: upstream status", upstream.status);
         if (!upstream.ok || !upstream.body) {
           const detail = await upstream.text().catch(() => "");
           let message = "The AI advisor is temporarily unavailable.";
