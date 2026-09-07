@@ -151,11 +151,29 @@ export function AskClima({
         <div className="mt-5 border-t border-glass-border pt-5">
           {answer ? (
             <div className="space-y-3 text-sm leading-relaxed text-muted-foreground">
-              {answer.split(/\n{2,}/).map((para, i) => (
-                <p key={i} className="text-pretty whitespace-pre-wrap">
-                  {para}
-                </p>
-              ))}
+              {answer.split(/\n{2,}/).map((block, i) => {
+                const lines = block.split("\n");
+                const isList = lines.every((l) => /^\s*[-*\u2022]\s+/.test(l));
+                if (isList) {
+                  return (
+                    <ul key={i} className="space-y-2">
+                      {lines.map((l, j) => (
+                        <li key={j} className="flex gap-3">
+                          <span className="mt-2 h-px w-3 shrink-0 bg-brand/60" />
+                          <span className="text-pretty">
+                            {renderInline(l.replace(/^\s*[-*\u2022]\s+/, ""))}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  );
+                }
+                return (
+                  <p key={i} className="text-pretty whitespace-pre-wrap">
+                    {renderInline(block)}
+                  </p>
+                );
+              })}
             </div>
           ) : (
             <div className="space-y-2">
@@ -174,5 +192,18 @@ export function AskClima({
         </div>
       )}
     </div>
+  );
+}
+
+/** Minimal inline renderer: **bold** only, no HTML injection. */
+function renderInline(text: string) {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
+      <strong key={i} className="font-semibold text-foreground">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      <span key={i}>{part}</span>
+    ),
   );
 }
