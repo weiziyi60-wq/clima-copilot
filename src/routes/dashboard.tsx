@@ -197,7 +197,7 @@ function DashboardPage() {
                     <div className="flex flex-wrap items-end justify-between gap-3">
                       <div>
                         <span className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
-                          Overall Sustainability Score
+                          Climate Responsiveness Score
                         </span>
                         <div className="mt-2 flex items-baseline gap-2" key={runId}>
                           <span className="font-display text-6xl tracking-tight text-foreground">
