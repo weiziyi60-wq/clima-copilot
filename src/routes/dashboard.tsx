@@ -463,6 +463,3 @@ function RecItem({ text }: { text: string }) {
     </li>
   );
 }
-
-// satisfy unused import lint expectation for Link if tree-shaken
-void Link;
