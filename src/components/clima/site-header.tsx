@@ -7,10 +7,10 @@ type Props = {
 export function SiteHeader({ variant = "landing" }: Props) {
   return (
     <header className="sticky top-0 z-30">
-      <div className="absolute inset-0 -z-10 border-b border-glass-border bg-background/70 backdrop-blur-md" />
+      <div className="absolute inset-0 -z-10 border-b border-glass-border bg-background/80 backdrop-blur-md" />
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 lg:px-10">
         <Link to="/" className="group flex items-center gap-2.5">
-          <span className="brand-gradient grid size-8 place-items-center rounded-lg text-ink font-extrabold shadow-lg shadow-brand/20 transition-transform group-hover:scale-105">
+          <span className="brand-gradient grid size-8 place-items-center rounded-lg text-ink font-semibold transition-transform group-hover:scale-105">
             C
           </span>
           <span className="text-sm font-semibold tracking-[0.3em] text-foreground">

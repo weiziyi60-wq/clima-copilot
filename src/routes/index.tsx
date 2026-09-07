@@ -70,7 +70,7 @@ function IndexPage() {
               AI Sustainable Design Copilot
             </span>
 
-            <h1 className="mx-auto mt-8 max-w-4xl text-5xl font-extrabold leading-[1.02] tracking-tight text-foreground md:text-7xl">
+            <h1 className="font-display mx-auto mt-8 max-w-4xl text-5xl leading-[1.05] tracking-tight text-foreground md:text-7xl">
               Design with{" "}
               <span className="clima-text-gradient">climate</span>, before
               simulation.
@@ -107,7 +107,7 @@ function IndexPage() {
             className="mx-auto max-w-6xl px-6 py-16 lg:px-10"
           >
             <div className="mb-12 flex items-baseline justify-between border-t border-glass-border pt-8">
-              <h2 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+              <h2 className="font-display text-3xl tracking-tight text-foreground md:text-4xl">
                 How the instrument works
               </h2>
               <span className="hidden text-[11px] uppercase tracking-[0.2em] text-muted-foreground sm:block">
@@ -139,7 +139,7 @@ function IndexPage() {
             </div>
 
             {/* flow line */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-foreground/75">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-foreground/70">
               <span>Input design parameters</span>
               <span className="text-brand">→</span>
               <span>Analyse environmental performance</span>
@@ -159,7 +159,7 @@ function IndexPage() {
                   <p className="text-[11px] uppercase tracking-[0.25em] text-brand">
                     Five climate dimensions
                   </p>
-                  <h2 className="mt-2 max-w-xl text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+                  <h2 className="font-display mt-2 max-w-xl text-3xl tracking-tight text-foreground md:text-4xl">
                     A measured read of the site, before the model is built.
                   </h2>
                 </div>
@@ -173,7 +173,7 @@ function IndexPage() {
 
               <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-glass-border md:grid-cols-5">
                 {DIMENSIONS.map((d) => (
-                  <div key={d.name} className="bg-background/40 p-5">
+                  <div key={d.name} className="bg-card p-5">
                     <p className="text-sm font-semibold text-foreground">{d.name}</p>
                     <p className="mt-1 text-xs text-muted-foreground">{d.note}</p>
                   </div>
@@ -187,7 +187,7 @@ function IndexPage() {
             <div className="brand-gradient relative overflow-hidden rounded-3xl p-10 text-center md:p-16">
               <div className="grid-ticks absolute inset-0 opacity-30" aria-hidden />
               <div className="relative">
-                <h2 className="mx-auto max-w-2xl text-3xl font-extrabold tracking-tight text-ink md:text-4xl">
+                <h2 className="font-display mx-auto max-w-2xl text-3xl tracking-tight text-ink md:text-5xl">
                   Design with climate, before simulation.
                 </h2>
                 <p className="mx-auto mt-4 max-w-md text-sm text-ink/80">

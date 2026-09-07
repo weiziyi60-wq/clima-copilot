@@ -5,14 +5,14 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * CLIMA — Aurora glass design system.
- * Dark-first ClimateTech aesthetic: ink background, glass surfaces,
- * a teal → blue → violet climate aurora.
- * All colors in oklch.
+ * CLIMA — Light architectural editorial design system.
+ * Pale green-grey paper, elegant serif headlines, thin technical rules,
+ * restrained deep-green accents. All colors in oklch.
  */
 
 @theme inline {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -52,39 +52,38 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 
-  /* Surfaces */
-  --ink: oklch(0.155 0.012 250);
-  --background: oklch(0.155 0.012 250);
-  --foreground: oklch(0.96 0.004 250);
-  --card: oklch(0.16 0.014 252);
-  --card-foreground: oklch(0.96 0.004 250);
-  --popover: oklch(0.19 0.015 252);
-  --popover-foreground: oklch(0.96 0.004 250);
+  /* Paper surfaces — pale green-grey */
+  --ink: oklch(0.975 0.006 150);
+  --background: oklch(0.963 0.009 150);
+  --foreground: oklch(0.24 0.018 155);
+  --card: oklch(0.988 0.004 150);
+  --card-foreground: oklch(0.24 0.018 155);
+  --popover: oklch(0.99 0.003 150);
+  --popover-foreground: oklch(0.24 0.018 155);
 
-  /* Brand climate accents */
-  --primary: oklch(0.84 0.16 168);
-  --primary-foreground: oklch(0.16 0.012 250);
-  --accent: oklch(0.84 0.16 168);
-  --accent-foreground: oklch(0.16 0.012 250);
-  --brand: oklch(0.84 0.16 168);
-  --brand-2: oklch(0.72 0.16 250);
-  --brand-3: oklch(0.70 0.18 305);
+  /* Restrained green accents */
+  --primary: oklch(0.44 0.075 155);
+  --primary-foreground: oklch(0.975 0.006 150);
+  --accent: oklch(0.44 0.075 155);
+  --accent-foreground: oklch(0.975 0.006 150);
+  --brand: oklch(0.44 0.075 155);
+  --brand-2: oklch(0.55 0.075 160);
+  --brand-3: oklch(0.50 0.055 130);
 
-  /* Muted / glass */
-  --secondary: oklch(1 0 0 / 0.05);
-  --secondary-foreground: oklch(0.96 0.004 250);
-  --muted: oklch(0.78 0.01 250);
-  --muted-foreground: oklch(0.62 0.012 250);
-  --glass: oklch(1 0 0 / 0.035);
-  --glass-border: oklch(1 0 0 / 0.08);
+  --secondary: oklch(0.24 0.018 155 / 0.04);
+  --secondary-foreground: oklch(0.24 0.018 155);
+  --muted: oklch(0.55 0.012 155);
+  --muted-foreground: oklch(0.48 0.014 155);
+  --glass: oklch(1 0 0 / 0.6);
+  --glass-border: oklch(0.24 0.018 155 / 0.14);
 
-  --destructive: oklch(0.66 0.2 25);
-  --destructive-foreground: oklch(0.98 0.003 250);
-  --border: oklch(1 0 0 / 0.08);
-  --input: oklch(1 0 0 / 0.1);
-  --ring: oklch(0.84 0.16 168 / 0.5);
+  --destructive: oklch(0.52 0.18 27);
+  --destructive-foreground: oklch(0.98 0.003 150);
+  --border: oklch(0.24 0.018 155 / 0.14);
+  --input: oklch(0.24 0.018 155 / 0.18);
+  --ring: oklch(0.44 0.075 155 / 0.35);
 }
 
 @layer base {
@@ -105,44 +104,51 @@
   }
 
   ::selection {
-    background: oklch(0.84 0.16 168 / 0.25);
-    color: oklch(0.99 0 0);
+    background: oklch(0.44 0.075 155 / 0.16);
+    color: var(--foreground);
   }
 }
 
 /* ---- Utilities ---- */
 
+@utility font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
 @utility glass {
-  background: var(--glass);
+  background: var(--card);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(8px) saturate(125%);
+  box-shadow: 0 1px 2px oklch(0.24 0.018 155 / 0.04);
 }
 
 @utility glass-strong {
-  background: oklch(1 0 0 / 0.06);
-  border: 1px solid oklch(1 0 0 / 0.1);
-  backdrop-filter: blur(14px) saturate(135%);
+  background: oklch(1 0 0 / 0.92);
+  border: 1px solid oklch(0.24 0.018 155 / 0.16);
+  box-shadow: 0 8px 30px -18px oklch(0.24 0.018 155 / 0.35);
 }
 
 @utility brand-gradient {
+  background-color: var(--brand);
   background-image: linear-gradient(135deg, var(--brand), var(--brand-2));
 }
 
 @utility brand-gradient-soft {
+  background-color: var(--brand);
   background-image: linear-gradient(90deg, var(--brand), var(--brand-2));
 }
 
 @utility clima-text-gradient {
-  background-image: linear-gradient(90deg, var(--brand), var(--brand-2), var(--brand-3));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--brand);
 }
 
 @utility grid-ticks {
   background-image:
-    linear-gradient(oklch(1 0 0 / 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(1 0 0 / 0.04) 1px, transparent 1px);
+    linear-gradient(oklch(0.24 0.018 155 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.24 0.018 155 / 0.05) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
@@ -150,7 +156,7 @@
   background: linear-gradient(
     100deg,
     transparent 20%,
-    oklch(1 0 0 / 0.08) 50%,
+    oklch(0.44 0.075 155 / 0.07) 50%,
     transparent 80%
   );
   background-size: 200% 100%;
@@ -177,12 +183,12 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-aurora-float { animation: clima-float 14s ease-in-out infinite; }
-.animate-aurora-float-slow { animation: clima-float 20s ease-in-out infinite; }
-.animate-pulse-soft { animation: clima-pulse-soft 6s ease-in-out infinite; }
+.animate-aurora-float { animation: clima-float 18s ease-in-out infinite; }
+.animate-aurora-float-slow { animation: clima-float 26s ease-in-out infinite; }
+.animate-pulse-soft { animation: clima-pulse-soft 8s ease-in-out infinite; }
 .animate-rise { animation: clima-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
-/* Range slider — hide native track, draw our own gradient fill */
+/* Range slider — hide native track, draw our own fill */
 .clima-range {
   -webkit-appearance: none;
   appearance: none;
@@ -195,9 +201,9 @@
   width: 18px;
   height: 18px;
   border-radius: 9999px;
-  background: oklch(0.99 0 0);
-  border: 2px solid var(--brand);
-  box-shadow: 0 2px 10px oklch(0 0 0 / 0.5);
+  background: oklch(1 0 0);
+  border: 1.5px solid var(--brand);
+  box-shadow: 0 1px 4px oklch(0.24 0.018 155 / 0.25);
   margin-top: -7px;
   transition: transform 0.15s ease;
 }
@@ -206,9 +212,9 @@
   width: 18px;
   height: 18px;
   border-radius: 9999px;
-  background: oklch(0.99 0 0);
-  border: 2px solid var(--brand);
-  box-shadow: 0 2px 10px oklch(0 0 0 / 0.5);
+  background: oklch(1 0 0);
+  border: 1.5px solid var(--brand);
+  box-shadow: 0 1px 4px oklch(0.24 0.018 155 / 0.25);
 }
 .clima-range:focus-visible {
   outline: none;

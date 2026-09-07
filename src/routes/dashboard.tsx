@@ -155,7 +155,7 @@ function DashboardPage() {
               <p className="text-[11px] uppercase tracking-[0.25em] text-brand">
                 Analysis Dashboard
               </p>
-              <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              <h1 className="font-display mt-2 text-4xl tracking-tight text-foreground sm:text-5xl">
                 Environmental Performance
               </h1>
             </div>
@@ -279,7 +279,7 @@ function DashboardPage() {
                       Overall Sustainability
                     </span>
                     <div className="mt-2 flex items-baseline gap-2" key={runId}>
-                      <span className="text-6xl font-extrabold tracking-tight text-foreground">
+                      <span className="font-display text-6xl tracking-tight text-foreground">
                         {scores.overall}
                       </span>
                       <span className="text-muted-foreground">/ 100</span>
@@ -287,7 +287,7 @@ function DashboardPage() {
                   </div>
                   <span className="rounded-full px-2.5 py-1 text-xs"
                     style={{
-                      background: "oklch(0.84 0.16 168 / 0.12)",
+                      background: "oklch(0.44 0.075 155 / 0.09)",
                       color: "var(--color-brand)",
                     }}
                   >
@@ -317,7 +317,7 @@ function DashboardPage() {
               </div>
 
               <div className="grid gap-5 md:grid-cols-2">
-                <div className="glass rounded-2xl p-6" style={{ borderColor: "oklch(0.84 0.16 168 / 0.18)" }}>
+                <div className="glass rounded-2xl p-6" style={{ borderColor: "oklch(0.44 0.075 155 / 0.28)" }}>
                   <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-brand">
                     Key Risks
                   </h3>
@@ -327,7 +327,7 @@ function DashboardPage() {
                     <RiskItem tone="amber" text="Ground-floor envelope has limited thermal buffer." />
                   </ul>
                 </div>
-                <div className="glass rounded-2xl p-6" style={{ borderColor: "oklch(0.70 0.18 305 / 0.18)" }}>
+                <div className="glass rounded-2xl p-6" style={{ borderColor: "oklch(0.50 0.055 130 / 0.28)" }}>
                   <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-brand-3">
                     AI Recommendations
                   </h3>
@@ -430,12 +430,12 @@ function ScoreBar({ label, value }: { label: string; value: number }) {
         <span className="text-foreground/90">{label}</span>
         <span className="font-mono text-muted-foreground">
           {value}
-          <span className={tone.tone === "brand" ? " text-brand" : tone.tone === "amber" ? " text-amber-300" : " text-rose-300"}>
+          <span className={tone.tone === "brand" ? " text-brand" : tone.tone === "amber" ? " text-amber-600" : " text-rose-600"}>
             {" "}
           </span>
         </span>
       </div>
-      <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+      <div className="h-1.5 overflow-hidden rounded-full bg-foreground/10">
         <div
           className="brand-gradient-soft h-full rounded-full transition-[width] duration-700 ease-out"
           style={{ width: `${value}%` }}
@@ -446,7 +446,7 @@ function ScoreBar({ label, value }: { label: string; value: number }) {
 }
 
 function RiskItem({ text, tone }: { text: string; tone: "amber" | "rose" }) {
-  const color = tone === "rose" ? "text-rose-300" : "text-amber-300";
+  const color = tone === "rose" ? "text-rose-600" : "text-amber-600";
   return (
     <li className="flex gap-3">
       <span className={color}>○</span>
