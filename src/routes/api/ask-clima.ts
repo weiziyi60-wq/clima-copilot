@@ -28,6 +28,38 @@ const RequestSchema = z.object({
   }),
   explanations: z.array(z.string()).max(20).default([]),
   actions: z.array(z.string()).max(10).default([]),
+  /** Optional deterministic comparison context (Option A vs Option B). */
+  comparison: z
+    .object({
+      inputsB: z.object({
+        orientation: z.string(),
+        wwr: z.number(),
+        shading: z.string(),
+        ventilation: z.string(),
+        greenery: z.string(),
+      }),
+      overallA: z.number(),
+      overallB: z.number(),
+      classificationA: z.string(),
+      classificationB: z.string(),
+      overallDelta: z.number(),
+      categories: z
+        .array(
+          z.object({
+            label: z.string(),
+            max: z.number(),
+            a: z.number(),
+            b: z.number(),
+            delta: z.number(),
+          }),
+        )
+        .max(10),
+      changes: z
+        .array(z.object({ label: z.string(), from: z.string(), to: z.string() }))
+        .max(10),
+      interpretation: z.array(z.string()).max(20),
+    })
+    .optional(),
 });
 
 const SYSTEM_PROMPT = `You are the CLIMA Design Advisor — an early-stage climate-responsive design assistant for architects working in Singapore's hot-humid climate.
