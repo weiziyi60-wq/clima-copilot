@@ -83,10 +83,6 @@ const DRIVERS: Record<CategoryKey, string[]> = {
   ],
 };
 
-function phrase(change: InputChange) {
-  return `${change.label.toLowerCase()} (${change.from} → ${change.to})`;
-}
-
 function buildInterpretation(
   categories: CategoryDelta[],
   changes: InputChange[],
@@ -105,41 +101,26 @@ function buildInterpretation(
     ];
   }
 
-  if (overallDelta > 0) {
-    out.push(
-      `Option B scores ${round1(overallDelta)} points higher overall, driven by ${scoring
-        .map(phrase)
-        .join(", ")}.`,
-    );
-  } else if (overallDelta < 0) {
-    out.push(
-      `Option B scores ${round1(Math.abs(overallDelta))} points lower overall, following ${scoring
-        .map(phrase)
-        .join(", ")}.`,
-    );
-  } else {
-    out.push(
-      `Overall the two options score the same, although ${scoring
-        .map(phrase)
-        .join(", ")} redistributes performance between categories.`,
-    );
-  }
+  const affectedCategories = categories.filter(
+    (category) =>
+      category.delta !== 0 &&
+      scoring.some((change) => DRIVERS[category.key].includes(change.label)),
+  );
+  out.push(
+    `The changed scoring inputs affect ${affectedCategories
+      .map((category) => category.label)
+      .join(", ")} under the fixed CLIMA rules. The largest score movements are shown below.`,
+  );
 
   const moved = categories
     .filter((c) => c.delta !== 0)
     .sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
 
   for (const cat of moved.slice(0, 3)) {
-    const drivers = scoring.filter((c) => DRIVERS[cat.key].includes(c.label));
-    const because = drivers.length
-      ? ` This category responds to ${drivers.map((d) => d.label.toLowerCase()).join(" and ")}.`
-      : cat.key === "energy"
-        ? " Energy potential is derived from the other four categories."
-        : "";
     out.push(
       `${cat.label} moves from ${cat.a} to ${cat.b} out of ${cat.max} (${
         cat.delta > 0 ? "+" : ""
-      }${round1(cat.delta)}).${because}`,
+      }${round1(cat.delta)}).`,
     );
   }
 
@@ -151,10 +132,6 @@ function buildInterpretation(
         .join(" and ")} weakens while the overall result improves.`,
     );
   }
-
-  out.push(
-    "These are rule-based comparisons of early-stage design parameters. They are not simulated energy, thermal comfort, carbon or certification outcomes.",
-  );
 
   return out;
 }

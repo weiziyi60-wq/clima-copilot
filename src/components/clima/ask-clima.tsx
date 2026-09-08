@@ -110,16 +110,18 @@ export function AskClima({
       ];
 
   return (
-    <div className="glass rounded-2xl p-7">
+    <div className="glass rounded-2xl p-5 sm:p-7">
       <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-brand">
         Ask CLIMA
       </h3>
       <p className="mt-2 text-sm text-muted-foreground">
-        Discuss this design with your AI climate advisor.
+        {comparison
+          ? "Discuss Option A and Option B with your AI climate advisor."
+          : "Discuss this design with your AI climate advisor."}
       </p>
 
       <form
-        className="mt-5 flex flex-col gap-3 sm:flex-row"
+        className="mt-4 flex flex-col gap-3 sm:flex-row"
         onSubmit={(e) => {
           e.preventDefault();
           void ask(question);
@@ -129,12 +131,12 @@ export function AskClima({
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="e.g. The client insists on 75% glazing. What can I improve instead?"
-          className="min-w-0 flex-1 rounded-lg border border-glass-border bg-secondary px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-brand/50"
+          className="min-h-11 min-w-0 flex-1 rounded-lg border border-glass-border bg-secondary px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-brand/50"
         />
         <button
           type="submit"
           disabled={loading || question.trim().length === 0}
-          className="brand-gradient flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-ink transition-transform enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+          className="brand-gradient flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-ink transition-transform enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {loading ? (
             <>
@@ -147,7 +149,7 @@ export function AskClima({
         </button>
       </form>
 
-      <div className="mt-3 flex flex-wrap gap-2">
+      <div className="mt-3 flex flex-wrap items-start gap-2">
         {suggestions.map((s) => (
           <button
             key={s}
@@ -157,7 +159,7 @@ export function AskClima({
               setQuestion(s);
               void ask(s);
             }}
-            className="rounded-full border border-glass-border px-3 py-1 text-[11px] text-muted-foreground transition-colors hover:border-brand/40 hover:text-foreground disabled:opacity-50"
+            className="max-w-full rounded-lg border border-glass-border px-3 py-1.5 text-left text-[11px] leading-snug text-muted-foreground transition-colors hover:border-brand/40 hover:text-foreground disabled:opacity-50"
           >
             {s}
           </button>

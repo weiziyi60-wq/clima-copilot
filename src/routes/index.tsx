@@ -49,9 +49,9 @@ const STEPS = [
 
 const DIMENSIONS = [
   { name: "Solar Control", note: "Glare & heat gain" },
-  { name: "Daylight", note: "Useful illuminance" },
-  { name: "Natural Ventilation", note: "Airflow & comfort" },
-  { name: "Envelope Performance", note: "Thermal buffer" },
+  { name: "Daylight Potential", note: "Useful illuminance" },
+  { name: "Natural Ventilation Potential", note: "Airflow & comfort" },
+  { name: "Envelope Strategy", note: "Thermal buffer" },
   { name: "Energy Potential", note: "Demand & yield" },
 ];
 
@@ -64,13 +64,13 @@ function IndexPage() {
 
         <main className="flex-1">
           {/* HERO */}
-          <section className="mx-auto max-w-6xl px-6 pb-20 pt-16 text-center lg:px-10 lg:pt-24">
+          <section className="mx-auto max-w-6xl px-6 pb-14 pt-12 text-center sm:pb-20 sm:pt-16 lg:px-10 lg:pt-24">
             <span className="glass inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] uppercase tracking-[0.2em] text-brand">
               <span className="size-1.5 animate-pulse rounded-full bg-brand" />
               AI Sustainable Design Copilot
             </span>
 
-            <h1 className="font-display mx-auto mt-8 max-w-4xl text-5xl leading-[1.05] tracking-tight text-foreground md:text-7xl">
+            <h1 className="font-display mx-auto mt-7 max-w-4xl text-5xl leading-[1.05] tracking-tight text-foreground sm:mt-8 md:text-7xl">
               Design with{" "}
               <span className="clima-text-gradient">climate</span>, before
               simulation.
@@ -81,7 +81,7 @@ function IndexPage() {
               architectural decisions.
             </p>
 
-            <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-9 sm:flex-row sm:items-center sm:gap-4">
               <Link
                 to="/dashboard"
                 className="brand-gradient rounded-xl px-7 py-3.5 text-sm font-semibold text-ink transition-transform hover:-translate-y-0.5"
@@ -139,11 +139,11 @@ function IndexPage() {
             </div>
 
             {/* flow line */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-foreground/70">
-              <span>Input design parameters</span>
-              <span className="text-brand">→</span>
-              <span>Analyse environmental performance</span>
-              <span className="text-brand-2">→</span>
+            <div className="mt-8 grid justify-center gap-1.5 text-xs text-foreground/70 sm:flex sm:items-center sm:gap-3">
+              <span>Input design parameters <span className="ml-2 text-brand sm:hidden">↓</span></span>
+              <span className="hidden text-brand sm:inline">→</span>
+              <span>Analyse environmental performance <span className="ml-2 text-brand-2 sm:hidden">↓</span></span>
+              <span className="hidden text-brand-2 sm:inline">→</span>
               <span>Improve the design</span>
             </div>
           </section>

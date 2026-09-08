@@ -299,4 +299,4 @@ export function scoreDesign(inputs: DesignInputs): ScoreResult {
 }
 
 export const METHODOLOGY_DISCLAIMER =
-  "The Climate Responsiveness Score evaluates early-stage climate-responsive design potential only. It is not a measure of overall building sustainability, regulatory compliance, or certified building performance. CLIMA V0.1 is an early-stage heuristic assessment, not a building performance simulation, regulatory assessment, or Green Mark certification tool. Detailed design decisions should be validated through appropriate environmental simulation and professional assessment.";
+  "CLIMA is an early-stage heuristic climate-responsive design assessment for exploration and comparison. It is not a building performance simulation, regulatory assessment, or Green Mark certification tool, and does not predict actual energy, carbon, daylight, thermal comfort, or cooling-load performance.";
