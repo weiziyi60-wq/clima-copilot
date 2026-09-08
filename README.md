@@ -1,142 +1,178 @@
-# CLIMA: Climate Design Companion
+# CLIMA — AI Sustainable Design Copilot
 
-Build a polished web application called "CLIMA".
+> **Design with climate, before simulation.**
 
-CLIMA is an AI-powered sustainable design copilot for architects and designers. It provides rapid early-stage environmental feedback based on basic architectural design parameters.
+CLIMA is an early-stage AI decision-support prototype for climate-responsive architectural design.
 
-The product should feel like a professional ClimateTech / PropTech SaaS platform rather than a student project.
+It helps architects rapidly evaluate basic design decisions, compare alternatives, identify climate-related risks, and receive context-aware design guidance before moving into detailed environmental simulation.
 
-Create a clean, minimal and sophisticated interface with generous whitespace, strong typography, subtle environmental visual cues, and an architecture-focused aesthetic.
+**Live Demo:** https://clima-copilot.lovable.app
 
-Create two main views:
+---
 
-1. LANDING PAGE
+## Why CLIMA?
 
-Hero section:
+Early architectural decisions — such as façade orientation, glazing ratio, external shading, and ventilation strategy — can strongly influence environmental performance.
 
-CLIMA
+However, detailed simulation is often introduced later in the design process.
 
-AI Sustainable Design Copilot
+CLIMA explores a simple question:
 
-Headline:
+> **Can designers receive structured, explainable climate feedback while design decisions are still flexible?**
 
-Design with climate, before simulation.
+The prototype is designed as an early-stage screening and decision-support tool rather than a replacement for professional building-performance simulation.
 
-Supporting text:
+---
 
-Rapid, explainable sustainability feedback for early-stage architectural decisions.
+## Product Principle
 
-Primary button:
+### Rules calculate. AI interprets. Designers decide.
 
-Analyse a Design
+CLIMA deliberately separates quantitative assessment from generative AI.
 
-Include a simple section explaining:
+A deterministic scoring engine evaluates every design using the same predefined framework. The AI layer receives the design inputs and calculated results as read-only context, then helps the designer interpret them and explore potential improvements.
 
-Input design parameters → Analyse environmental performance → Improve the design
+This hybrid architecture makes the assessment more consistent, transparent, and explainable than relying on an LLM to generate both the evaluation and the advice.
 
-2. ANALYSIS DASHBOARD
+---
 
-Create a project input panel with:
+## Core Features
 
-- Location
+### 1. Climate Responsiveness Assessment
 
-  Default: Singapore
+Designers provide a small set of early-stage architectural parameters:
 
-- Building Type
+- Primary glazed façade orientation
+- Window-to-wall ratio
+- External shading strategy
+- Natural ventilation strategy
+- Greenery integration
 
-  Residential
-
-  Office
-
-  Mixed-use
-
-- Primary Orientation
-
-  North-South
-
-  East-West
-
-  Northeast-Southwest
-
-  Northwest-Southeast
-
-- Window-to-Wall Ratio
-
-  Slider from 20% to 80%
-
-  Default 50%
-
-- External Shading
-
-  None
-
-  Horizontal
-
-  Vertical
-
-  Mixed
-
-- Natural Ventilation Strategy
-
-  Yes / No
-
-- Greenery Integration
-
-  Low / Medium / High
-
-Add a primary button:
-
-Analyse Design
-
-On the results side create placeholder components for:
-
-- Overall Sustainability Score /100
+CLIMA evaluates the design across five dimensions:
 
 - Solar Control
-
-- Daylight
-
-- Natural Ventilation
-
-- Envelope Performance
-
+- Daylight Potential
+- Natural Ventilation Potential
+- Envelope Strategy
 - Energy Potential
 
-Below the scores create:
+These are combined into a **Climate Responsiveness Score /100** for rapid option screening.
 
-KEY RISKS
+---
 
-and
+### 2. Compare Design Options
 
-AI RECOMMENDATIONS
+CLIMA allows designers to compare an existing design (Option A) with an alternative design (Option B).
 
-Use placeholder content for now.
+Both options are evaluated using the same deterministic scoring engine.
 
-Do not implement real AI functionality or complex calculations yet.
+The comparison identifies:
 
-Focus on creating the complete responsive frontend interface and interaction structure.
+- Overall score difference
+- Subscore changes
+- Modified design parameters
+- Deterministic explanations of why the design performs differently
 
-The application should look credible enough to present as an early-stage ClimateTech startup prototype.
+This supports rapid A/B testing during early-stage design iteration.
 
-This project was built with [Lovable](https://lovable.dev).
+---
 
-**Live app**: https://clima-copilot.lovable.app
+### 3. Ask CLIMA
 
-## Build with Lovable
+Ask CLIMA is a context-aware AI design advisor.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/608318bc-7041-401c-aa63-1220387f110b).
+Instead of asking a general-purpose chatbot to assess a building from scratch, the AI receives structured context including:
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- Design parameters
+- Precomputed Climate Responsiveness Score
+- Five assessment subscores
+- Option comparison results when available
 
-## Development
+The AI then helps interpret the assessment, identify priorities, discuss trade-offs, and suggest potential design interventions.
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+The AI does **not** calculate or modify the deterministic score.
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+---
+
+## AI Guardrails
+
+CLIMA is intentionally designed to prevent the generative AI layer from presenting unsupported quantitative claims.
+
+Ask CLIMA is instructed not to invent:
+
+- Energy savings percentages
+- Cooling loads
+- Carbon reductions
+- RETV values
+- Daylight simulation results
+- Green Mark ratings or certification outcomes
+
+When a question requires detailed building-performance analysis, the system explains that simulation or professional assessment would be required.
+
+---
+
+## Assessment Framework
+
+The current prototype is configured for early-stage residential design in Singapore's hot-humid climate.
+
+The heuristic framework considers relationships between:
+
+**Orientation → solar exposure**
+
+**Window-to-wall ratio → daylight, solar exposure, and envelope sensitivity**
+
+**External shading → solar protection**
+
+**Ventilation strategy → passive cooling potential**
+
+**Combined design characteristics → early-stage energy potential**
+
+The framework is informed by tropical climate-responsive design principles and Singapore building-performance guidance.
+
+It is designed for **consistent comparison between early design options**, not prediction of actual building performance.
+
+---
+
+## Example Design Iteration
+
+An example test demonstrates how CLIMA supports design iteration.
+
+**Option A**
+
+- West-facing primary glazed façade
+- 75% WWR
+- No external shading
+- No intentional natural ventilation strategy
+
+Climate Responsiveness Score: **23 / 100 — High Climate Risk**
+
+**Option B**
+
+- West-facing primary glazed façade
+- 45% WWR
+- Mixed external shading
+- Cross ventilation
+
+Climate Responsiveness Score: **83 / 100 — Good Potential**
+
+CLIMA then explains which assessment dimensions improved and allows the designer to ask follow-up questions about priorities and design trade-offs.
+
+---
+
+## System Architecture
+
+```text
+Architectural Design Inputs
+          ↓
+Deterministic Assessment Engine
+          ↓
+Climate Responsiveness Score
++ Five Subscores
+          ↓
+Option Comparison
+          ↓
+Structured Context
+          ↓
+Generative AI Advisor
+          ↓
+Explainable Design Guidance
