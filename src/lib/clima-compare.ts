@@ -83,10 +83,6 @@ const DRIVERS: Record<CategoryKey, string[]> = {
   ],
 };
 
-function phrase(change: InputChange) {
-  return `${change.label.toLowerCase()} (${change.from} → ${change.to})`;
-}
-
 function buildInterpretation(
   categories: CategoryDelta[],
   changes: InputChange[],
@@ -105,41 +101,27 @@ function buildInterpretation(
     ];
   }
 
-  if (overallDelta > 0) {
-    out.push(
-      `Option B scores ${round1(overallDelta)} points higher overall, driven by ${scoring
-        .map(phrase)
-        .join(", ")}.`,
-    );
-  } else if (overallDelta < 0) {
-    out.push(
-      `Option B scores ${round1(Math.abs(overallDelta))} points lower overall, following ${scoring
-        .map(phrase)
-        .join(", ")}.`,
-    );
-  } else {
-    out.push(
-      `Overall the two options score the same, although ${scoring
-        .map(phrase)
-        .join(", ")} redistributes performance between categories.`,
-    );
-  }
+  out.push(
+    `Changed scoring inputs: ${scoring
+      .map((change) => `${change.label} (${change.from} → ${change.to})`)
+      .join("; ")}.`,
+  );
 
   const moved = categories
     .filter((c) => c.delta !== 0)
     .sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
 
   for (const cat of moved.slice(0, 3)) {
-    const drivers = scoring.filter((c) => DRIVERS[cat.key].includes(c.label));
-    const because = drivers.length
-      ? ` This category responds to ${drivers.map((d) => d.label.toLowerCase()).join(" and ")}.`
-      : cat.key === "energy"
-        ? " Energy potential is derived from the other four categories."
-        : "";
+    const relevantInputs = scoring.filter((c) => DRIVERS[cat.key].includes(c.label));
+    const context = relevantInputs.length
+      ? ` The scoring rules for this category use ${relevantInputs
+          .map((change) => change.label.toLowerCase())
+          .join(" and ")}.`
+      : "";
     out.push(
       `${cat.label} moves from ${cat.a} to ${cat.b} out of ${cat.max} (${
         cat.delta > 0 ? "+" : ""
-      }${round1(cat.delta)}).${because}`,
+      }${round1(cat.delta)}).${context}`,
     );
   }
 
@@ -151,10 +133,6 @@ function buildInterpretation(
         .join(" and ")} weakens while the overall result improves.`,
     );
   }
-
-  out.push(
-    "These are rule-based comparisons of early-stage design parameters. They are not simulated energy, thermal comfort, carbon or certification outcomes.",
-  );
 
   return out;
 }

@@ -92,8 +92,8 @@ export function DesignInputFields({
     onChange({ ...value, [key]: v });
 
   return (
-    <div className="space-y-5">
-      <div className="grid grid-cols-2 gap-4">
+    <div className="space-y-4 sm:space-y-5">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
         <Field label="Location">
           <FixedValue value="Singapore" />
         </Field>
@@ -156,8 +156,7 @@ export function DesignInputFields({
           compact
         />
         <p className="mt-2 text-[10px] leading-relaxed text-muted-foreground">
-          Greenery is recorded for future assessment modules and is not included in the
-          current score.
+          Recorded for context; not included in the current score.
         </p>
       </Field>
     </div>

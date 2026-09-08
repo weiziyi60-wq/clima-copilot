@@ -42,45 +42,44 @@ export function ComparePanel({
       <button
         type="button"
         onClick={start}
-        className="glass w-full rounded-2xl px-6 py-4 text-sm font-medium text-foreground transition-colors hover:border-brand/40"
+        className="glass grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl px-5 py-4 text-left text-sm font-medium text-foreground transition-colors hover:border-brand/40 sm:flex sm:justify-center sm:text-center"
       >
-        Compare Design
-        <span className="ml-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-          Design → Assess → Iterate → Compare → Decide
+        <span className="min-w-0">Compare Design</span>
+        <span className="shrink-0 text-[10px] uppercase tracking-[0.14em] text-muted-foreground sm:text-[11px]">
+          Option A → Option B
         </span>
       </button>
     );
   }
 
   return (
-    <div className="space-y-5">
-      <div className="glass rounded-2xl p-7">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
+    <div className="space-y-4 sm:space-y-5">
+      <div className="glass rounded-2xl p-5 sm:p-7">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+          <div className="min-w-0">
             <p className="text-[11px] uppercase tracking-[0.25em] text-brand">Option B</p>
             <h3 className="font-display mt-1 text-2xl text-foreground">Design Iteration</h3>
-            <p className="mt-2 max-w-md text-sm text-muted-foreground">
-              Pre-filled with Option A (existing design). Change only the parameters you
-              want to test.
+            <p className="mt-1.5 max-w-md text-sm text-muted-foreground">
+              Starts with Option A. Change only what you want to test.
             </p>
           </div>
           <button
             type="button"
             onClick={reset}
-            className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
+            className="shrink-0 text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground"
           >
             Close
           </button>
         </div>
 
-        <div className="mt-6">
+        <div className="mt-5">
           <DesignInputFields value={optionB} onChange={setOptionB} />
         </div>
 
         <button
           type="button"
           onClick={evaluate}
-          className="brand-gradient mt-7 w-full rounded-xl py-3.5 text-sm font-semibold text-ink transition-transform hover:-translate-y-0.5"
+          className="brand-gradient mt-6 w-full rounded-xl py-3.5 text-sm font-semibold text-ink transition-transform hover:-translate-y-0.5"
         >
           Evaluate Option B
         </button>
@@ -94,19 +93,21 @@ export function ComparePanel({
 function ComparisonResults({ c }: { c: Comparison }) {
   return (
     <div className="space-y-5">
-      <div className="glass rounded-2xl p-7">
+      <div className="glass rounded-2xl p-5 sm:p-7">
         <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-brand">
           Comparison
         </h3>
 
-        <div className="mt-6 grid gap-6 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+        <div className="mt-5 grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-3 sm:gap-7">
           <OptionScore
             tag="Option A"
             name="Existing Design"
             score={c.a.overall}
             classification={c.a.classification}
           />
-          <div className="hidden h-full w-px bg-glass-border sm:block" />
+          <div className="flex h-full min-h-28 shrink-0 items-center text-xl text-brand sm:text-2xl" aria-hidden>
+            →
+          </div>
           <OptionScore
             tag="Option B"
             name="Design Iteration"
@@ -115,32 +116,30 @@ function ComparisonResults({ c }: { c: Comparison }) {
           />
         </div>
 
-        <div className="mt-6 border-t border-glass-border pt-5">
-          <span className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-            Difference
+        <div className="mt-5 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 border-y border-glass-border py-4">
+          <span className="min-w-0 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+            Score difference
           </span>
-          <p className="font-display mt-1 text-3xl tracking-tight text-foreground">
+          <p className="font-display shrink-0 text-4xl leading-none text-brand sm:text-5xl">
             {formatDelta(c.overallDelta)}
-            {c.overallDelta !== 0 && (
-              <span className="ml-2 text-sm text-muted-foreground">points</span>
-            )}
+            {c.overallDelta !== 0 && <span className="ml-2 text-sm text-muted-foreground">points</span>}
           </p>
         </div>
 
-        <div className="mt-7 space-y-3">
+        <div className="mt-5 space-y-2">
           {c.categories.map((cat) => (
             <div
               key={cat.key}
-              className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-t border-glass-border pt-3 text-sm"
+              className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-3 border-t border-glass-border pt-2.5 text-sm"
             >
-              <span className="text-foreground/90">{cat.label}</span>
-              <span className="font-mono text-xs text-muted-foreground">
+              <span className="min-w-0 text-foreground/90">{cat.label}</span>
+              <span className="shrink-0 whitespace-nowrap font-mono text-xs text-muted-foreground">
                 <span className="text-foreground">{cat.a}</span>
                 <span className="mx-2">→</span>
                 <span className="text-foreground">{cat.b}</span>
                 <span className="ml-1">/ {cat.max}</span>
                 <span
-                  className="ml-4 inline-block min-w-14 text-right"
+                   className="ml-2 inline-block min-w-12 text-right sm:ml-4 sm:min-w-14"
                   style={{
                     color:
                       cat.delta === 0
@@ -159,7 +158,7 @@ function ComparisonResults({ c }: { c: Comparison }) {
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
-        <div className="glass rounded-2xl p-6">
+        <div className="glass rounded-2xl p-5 sm:p-6">
           <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-brand">
             What changed
           </h3>
@@ -168,14 +167,14 @@ function ComparisonResults({ c }: { c: Comparison }) {
               No parameters were changed between the two options.
             </p>
           ) : (
-            <dl className="mt-4 space-y-3 text-sm">
+            <dl className="mt-4 divide-y divide-glass-border text-sm">
               {c.changes.map((ch) => (
                 <div
                   key={ch.label}
-                  className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1"
+                  className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-3 py-2 first:pt-0 last:pb-0"
                 >
-                  <dt className="text-foreground/90">{ch.label}</dt>
-                  <dd className="font-mono text-xs text-muted-foreground">
+                  <dt className="min-w-0 text-foreground/90">{ch.label}</dt>
+                  <dd className="shrink-0 whitespace-nowrap font-mono text-xs text-muted-foreground">
                     {ch.from} <span className="mx-1">→</span>{" "}
                     <span className="text-foreground">{ch.to}</span>
                   </dd>
@@ -186,13 +185,13 @@ function ComparisonResults({ c }: { c: Comparison }) {
         </div>
 
         <div
-          className="glass rounded-2xl p-6"
+          className="glass rounded-2xl p-5 sm:p-6"
           style={{ borderColor: "oklch(0.50 0.055 130 / 0.28)" }}
         >
           <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-brand-3">
             Why Option B performs differently
           </h3>
-          <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
+          <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
             {c.interpretation.map((text) => (
               <li key={text} className="flex gap-3">
                 <span className="mt-2 h-px w-4 shrink-0 bg-brand/60" />
@@ -218,20 +217,16 @@ function OptionScore({
   classification: string;
 }) {
   return (
-    <div>
+    <div className="min-w-0 text-center">
       <p className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">{tag}</p>
-      <p className="mt-1 text-sm text-foreground/90">{name}</p>
-      <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-        Climate Responsiveness Score
-      </p>
-      <div className="mt-1 flex items-baseline gap-2">
-        <span className="font-display text-5xl tracking-tight text-foreground">{score}</span>
-        <span className="text-muted-foreground">/ 100</span>
+      <p className="mt-1 truncate text-xs text-foreground/90 sm:text-sm">{name}</p>
+      <div className="mt-2 flex items-baseline justify-center gap-1 sm:mt-3 sm:gap-2">
+        <span className="font-display text-5xl leading-none text-foreground sm:text-6xl">{score}</span>
+        <span className="text-xs text-muted-foreground sm:text-sm">/ 100</span>
       </div>
       <span
-        className="mt-3 inline-block rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.18em]"
+        className="mt-3 inline-block max-w-full text-balance text-[9px] uppercase leading-relaxed tracking-[0.12em] text-brand sm:text-[10px] sm:tracking-[0.16em]"
         style={{
-          background: "oklch(0.44 0.075 155 / 0.09)",
           color: "var(--color-brand)",
         }}
       >
