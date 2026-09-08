@@ -5,6 +5,17 @@ import { SiteHeader } from "@/components/clima/site-header";
 import { SiteFooter } from "@/components/clima/site-footer";
 import { RangeSlider } from "@/components/clima/range-slider";
 import { AskClima } from "@/components/clima/ask-clima";
+import { ComparePanel } from "@/components/clima/compare-panel";
+import {
+  Field,
+  FixedValue,
+  Segmented,
+  ORIENTATIONS,
+  SHADINGS,
+  VENTILATIONS,
+  GREENERY,
+} from "@/components/clima/design-input-fields";
+import type { Comparison } from "@/lib/clima-compare";
 
 import {
   MAX,
@@ -40,10 +51,6 @@ export const Route = createFileRoute("/dashboard")({
   component: DashboardPage,
 });
 
-const ORIENTATIONS: Orientation[] = ["North", "South", "East", "West", "Mixed / Multiple"];
-const SHADINGS: Shading[] = ["None", "Horizontal", "Vertical", "Mixed"];
-const VENTILATIONS: VentilationStrategy[] = ["None", "Single-sided", "Cross ventilation"];
-const GREENERY: Greenery[] = ["Low", "Medium", "High"];
 
 function DashboardPage() {
   const [orientation, setOrientation] = useState<Orientation>("North");
@@ -56,10 +63,12 @@ function DashboardPage() {
   const [analysedInputs, setAnalysedInputs] = useState<DesignInputs | null>(null);
   const [analysing, setAnalysing] = useState(false);
   const [runId, setRunId] = useState(0);
+  const [comparison, setComparison] = useState<Comparison | null>(null);
 
   function handleAnalyse() {
     const inputs: DesignInputs = { orientation, wwr, shading, ventilation, greenery };
     setAnalysing(true);
+    setComparison(null);
     window.setTimeout(() => {
       setResult(scoreDesign(inputs));
       setAnalysedInputs(inputs);
@@ -301,7 +310,21 @@ function DashboardPage() {
                     </div>
                   </div>
 
-                  {analysedInputs && <AskClima inputs={analysedInputs} result={result} />}
+                  {analysedInputs && (
+                    <ComparePanel
+                      key={runId}
+                      baseInputs={analysedInputs}
+                      onComparison={setComparison}
+                    />
+                  )}
+
+                  {analysedInputs && (
+                    <AskClima
+                      inputs={analysedInputs}
+                      result={result}
+                      comparison={comparison}
+                    />
+                  )}
 
                   <p className="border-t border-glass-border pt-5 text-[11px] leading-relaxed text-muted-foreground">
                     {METHODOLOGY_DISCLAIMER}
@@ -319,63 +342,6 @@ function DashboardPage() {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <label className="text-xs tracking-wide text-muted-foreground">{label}</label>
-      <div className="mt-1.5">{children}</div>
-    </div>
-  );
-}
-
-function FixedValue({ value }: { value: string }) {
-  return (
-    <div className="flex items-center justify-between rounded-lg border border-glass-border bg-secondary px-4 py-2.5 text-sm text-foreground">
-      <span>{value}</span>
-      <span className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-        Fixed
-      </span>
-    </div>
-  );
-}
-
-function Segmented<T extends string>({
-  options,
-  value,
-  onChange,
-  grid = "grid-cols-3",
-  compact = false,
-  labels,
-}: {
-  options: readonly T[];
-  value: T;
-  onChange: (v: T) => void;
-  grid?: string;
-  compact?: boolean;
-  labels?: Partial<Record<T, string>>;
-}) {
-  return (
-    <div className={`grid gap-2 ${grid}`}>
-      {options.map((o) => {
-        const active = o === value;
-        return (
-          <button
-            key={o}
-            type="button"
-            onClick={() => onChange(o)}
-            className={
-              active
-                ? `brand-gradient-soft rounded-lg ${compact ? "py-1.5" : "py-2"} text-[11px] font-medium text-ink ring-1 ring-brand/40`
-                : `glass rounded-lg ${compact ? "py-1.5" : "py-2"} text-[11px] text-muted-foreground transition-colors hover:text-foreground`
-            }
-          >
-            {labels?.[o] ?? o}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
 
 function ScoreBar({
   label,
