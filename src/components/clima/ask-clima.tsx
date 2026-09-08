@@ -97,11 +97,17 @@ export function AskClima({
     }
   }
 
-  const suggestions = [
-    "Which parameter is limiting this design most?",
-    `The client insists on keeping ${inputs.wwr}% glazing. What can I improve instead?`,
-    "How should I treat the façade for this orientation?",
-  ];
+  const suggestions = comparison
+    ? [
+        "Which of these changes had the greatest impact?",
+        "What trade-offs did Option B introduce?",
+        "The client wants the large glazing area. Which improvements should I keep?",
+      ]
+    : [
+        "Which parameter is limiting this design most?",
+        `The client insists on keeping ${inputs.wwr}% glazing. What can I improve instead?`,
+        "How should I treat the façade for this orientation?",
+      ];
 
   return (
     <div className="glass rounded-2xl p-7">
