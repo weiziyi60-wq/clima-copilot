@@ -28,6 +28,38 @@ const RequestSchema = z.object({
   }),
   explanations: z.array(z.string()).max(20).default([]),
   actions: z.array(z.string()).max(10).default([]),
+  /** Optional deterministic comparison context (Option A vs Option B). */
+  comparison: z
+    .object({
+      inputsB: z.object({
+        orientation: z.string(),
+        wwr: z.number(),
+        shading: z.string(),
+        ventilation: z.string(),
+        greenery: z.string(),
+      }),
+      overallA: z.number(),
+      overallB: z.number(),
+      classificationA: z.string(),
+      classificationB: z.string(),
+      overallDelta: z.number(),
+      categories: z
+        .array(
+          z.object({
+            label: z.string(),
+            max: z.number(),
+            a: z.number(),
+            b: z.number(),
+            delta: z.number(),
+          }),
+        )
+        .max(10),
+      changes: z
+        .array(z.object({ label: z.string(), from: z.string(), to: z.string() }))
+        .max(10),
+      interpretation: z.array(z.string()).max(20),
+    })
+    .optional(),
 });
 
 const SYSTEM_PROMPT = `You are the CLIMA Design Advisor — an early-stage climate-responsive design assistant for architects working in Singapore's hot-humid climate.
@@ -72,7 +104,40 @@ export const Route = createFileRoute("/api/ask-clima")({
           });
         }
 
-        const { inputs, scores, explanations, actions, question } = body;
+        const { inputs, scores, explanations, actions, question, comparison } = body;
+
+        const comparisonBlock = comparison
+          ? [
+              "",
+              "DESIGN COMPARISON (read-only, both options scored by the same deterministic engine; do not alter, recompute or contradict):",
+              `Option A — Existing Design: ${comparison.overallA}/100 — ${comparison.classificationA}`,
+              `Option B — Design Iteration: ${comparison.overallB}/100 — ${comparison.classificationB}`,
+              `Overall difference: ${comparison.overallDelta > 0 ? "+" : ""}${comparison.overallDelta} points`,
+              "Option B parameters: " +
+                `orientation ${comparison.inputsB.orientation}, WWR ${comparison.inputsB.wwr}%, ` +
+                `shading ${comparison.inputsB.shading}, ventilation ${comparison.inputsB.ventilation}, ` +
+                `greenery ${comparison.inputsB.greenery} (excluded from the score)`,
+              comparison.categories.length
+                ? "Sub-score changes (A → B):\n- " +
+                  comparison.categories
+                    .map(
+                      (c) =>
+                        `${c.label}: ${c.a} → ${c.b} / ${c.max} (${c.delta > 0 ? "+" : ""}${c.delta})`,
+                    )
+                    .join("\n- ")
+                : "",
+              comparison.changes.length
+                ? "Changed inputs:\n- " +
+                  comparison.changes
+                    .map((c) => `${c.label}: ${c.from} → ${c.to}`)
+                    .join("\n- ")
+                : "No inputs changed between the options.",
+              comparison.interpretation.length
+                ? "Deterministic interpretation:\n- " +
+                  comparison.interpretation.join("\n- ")
+                : "",
+            ].filter(Boolean)
+          : [];
 
         const context = [
           "PROJECT CONTEXT (read-only, produced by the deterministic CLIMA engine):",
@@ -93,6 +158,7 @@ export const Route = createFileRoute("/api/ask-clima")({
           "",
           explanations.length ? `Engine rationale:\n- ${explanations.join("\n- ")}` : "",
           actions.length ? `Engine priority actions:\n- ${actions.join("\n- ")}` : "",
+          ...comparisonBlock,
           "",
           `ARCHITECT'S QUESTION:\n${question}`,
         ]

@@ -1,16 +1,20 @@
 import { useRef, useState } from "react";
 import type { DesignInputs, ScoreResult } from "@/lib/clima-scoring";
+import type { Comparison } from "@/lib/clima-compare";
 
 /**
- * Generative layer. Reads the deterministic result as context and never
- * produces or modifies any number itself.
+ * Generative layer. Reads the deterministic result (and, when present, the
+ * deterministic comparison) as context and never produces or modifies any
+ * number itself.
  */
 export function AskClima({
   inputs,
   result,
+  comparison,
 }: {
   inputs: DesignInputs;
   result: ScoreResult;
+  comparison?: Comparison | null;
 }) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -49,6 +53,25 @@ export function AskClima({
           },
           explanations: result.explanations,
           actions: result.actions,
+          comparison: comparison
+            ? {
+                inputsB: comparison.inputsB,
+                overallA: comparison.a.overall,
+                overallB: comparison.b.overall,
+                classificationA: comparison.a.classification,
+                classificationB: comparison.b.classification,
+                overallDelta: comparison.overallDelta,
+                categories: comparison.categories.map((c) => ({
+                  label: c.label,
+                  max: c.max,
+                  a: c.a,
+                  b: c.b,
+                  delta: c.delta,
+                })),
+                changes: comparison.changes,
+                interpretation: comparison.interpretation,
+              }
+            : undefined,
         }),
       });
 
@@ -74,11 +97,17 @@ export function AskClima({
     }
   }
 
-  const suggestions = [
-    "Which parameter is limiting this design most?",
-    `The client insists on keeping ${inputs.wwr}% glazing. What can I improve instead?`,
-    "How should I treat the façade for this orientation?",
-  ];
+  const suggestions = comparison
+    ? [
+        "Which of these changes had the greatest impact?",
+        "What trade-offs did Option B introduce?",
+        "The client wants the large glazing area. Which improvements should I keep?",
+      ]
+    : [
+        "Which parameter is limiting this design most?",
+        `The client insists on keeping ${inputs.wwr}% glazing. What can I improve instead?`,
+        "How should I treat the façade for this orientation?",
+      ];
 
   return (
     <div className="glass rounded-2xl p-7">
