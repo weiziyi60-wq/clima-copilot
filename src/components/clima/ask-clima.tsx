@@ -53,6 +53,14 @@ export function AskClima({
           },
           explanations: result.explanations,
           actions: result.actions,
+          comparison: comparison
+            ? {
+                optionB: comparison.b === result ? undefined : undefined,
+                inputsB: {
+                  orientation: comparison.changes.length ? undefined : undefined,
+                },
+              }
+            : undefined,
         }),
       });
 
