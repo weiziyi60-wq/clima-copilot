@@ -26,6 +26,8 @@ export type InputChange = {
 };
 
 export type Comparison = {
+  inputsA: DesignInputs;
+  inputsB: DesignInputs;
   a: ScoreResult;
   b: ScoreResult;
   overallDelta: number;

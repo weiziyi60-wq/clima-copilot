@@ -55,10 +55,21 @@ export function AskClima({
           actions: result.actions,
           comparison: comparison
             ? {
-                optionB: comparison.b === result ? undefined : undefined,
-                inputsB: {
-                  orientation: comparison.changes.length ? undefined : undefined,
-                },
+                inputsB: comparison.inputsB,
+                overallA: comparison.a.overall,
+                overallB: comparison.b.overall,
+                classificationA: comparison.a.classification,
+                classificationB: comparison.b.classification,
+                overallDelta: comparison.overallDelta,
+                categories: comparison.categories.map((c) => ({
+                  label: c.label,
+                  max: c.max,
+                  a: c.a,
+                  b: c.b,
+                  delta: c.delta,
+                })),
+                changes: comparison.changes,
+                interpretation: comparison.interpretation,
               }
             : undefined,
         }),
