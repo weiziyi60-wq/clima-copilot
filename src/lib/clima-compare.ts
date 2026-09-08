@@ -176,6 +176,8 @@ export function compareDesigns(a: DesignInputs, b: DesignInputs): Comparison {
   const changes = diffInputs(a, b);
 
   return {
+    inputsA: a,
+    inputsB: b,
     a: resultA,
     b: resultB,
     overallDelta,
