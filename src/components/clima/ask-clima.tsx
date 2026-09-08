@@ -1,16 +1,20 @@
 import { useRef, useState } from "react";
 import type { DesignInputs, ScoreResult } from "@/lib/clima-scoring";
+import type { Comparison } from "@/lib/clima-compare";
 
 /**
- * Generative layer. Reads the deterministic result as context and never
- * produces or modifies any number itself.
+ * Generative layer. Reads the deterministic result (and, when present, the
+ * deterministic comparison) as context and never produces or modifies any
+ * number itself.
  */
 export function AskClima({
   inputs,
   result,
+  comparison,
 }: {
   inputs: DesignInputs;
   result: ScoreResult;
+  comparison?: Comparison | null;
 }) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
