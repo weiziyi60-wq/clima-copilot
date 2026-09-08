@@ -101,10 +101,15 @@ function buildInterpretation(
     ];
   }
 
+  const affectedCategories = categories.filter(
+    (category) =>
+      category.delta !== 0 &&
+      scoring.some((change) => DRIVERS[category.key].includes(change.label)),
+  );
   out.push(
-    `Changed scoring inputs: ${scoring
-      .map((change) => `${change.label} (${change.from} → ${change.to})`)
-      .join("; ")}.`,
+    `The changed scoring inputs affect ${affectedCategories
+      .map((category) => category.label)
+      .join(", ")} under the fixed CLIMA rules. The largest score movements are shown below.`,
   );
 
   const moved = categories
@@ -112,16 +117,10 @@ function buildInterpretation(
     .sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
 
   for (const cat of moved.slice(0, 3)) {
-    const relevantInputs = scoring.filter((c) => DRIVERS[cat.key].includes(c.label));
-    const context = relevantInputs.length
-      ? ` The scoring rules for this category use ${relevantInputs
-          .map((change) => change.label.toLowerCase())
-          .join(" and ")}.`
-      : "";
     out.push(
       `${cat.label} moves from ${cat.a} to ${cat.b} out of ${cat.max} (${
         cat.delta > 0 ? "+" : ""
-      }${round1(cat.delta)}).${context}`,
+      }${round1(cat.delta)}).`,
     );
   }
 

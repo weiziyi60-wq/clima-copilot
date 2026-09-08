@@ -4,4 +4,4 @@
 - [x] Tighten deterministic comparison interpretation
 - [x] Polish Ask CLIMA copy and layout
 - [x] Audit terminology and disclaimer
-- [ ] Verify landing and full dashboard flow on desktop and mobile
+- [x] Verify landing and full dashboard flow on desktop and mobile
