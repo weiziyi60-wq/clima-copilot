@@ -84,30 +84,30 @@ function DashboardPage() {
       <div className="relative z-10 flex min-h-screen flex-col">
         <SiteHeader variant="dashboard" />
 
-        <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-10 lg:px-10">
-          <div className="mb-7 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div>
+        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-10 lg:px-10">
+          <div className="mb-7 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 sm:flex sm:justify-between">
+            <div className="min-w-0">
               <p className="text-[11px] uppercase tracking-[0.25em] text-brand">
-                Analysis Dashboard · V0.1
+                Analysis Dashboard · V0.4
               </p>
-              <h1 className="font-display mt-2 text-4xl tracking-tight text-foreground sm:text-5xl">
+              <h1 className="font-display mt-2 text-4xl leading-none text-foreground sm:text-5xl">
                 Environmental Performance
               </h1>
             </div>
-            <span className="text-xs text-muted-foreground">
-              Singapore · Residential · Run #{runId.toString().padStart(3, "0")}
+            <span className="shrink-0 text-right text-[10px] leading-relaxed text-muted-foreground sm:text-xs">
+              Singapore · Residential<br className="sm:hidden" /> · Run #{runId.toString().padStart(3, "0")}
             </span>
           </div>
 
           <div className="grid gap-5 lg:grid-cols-12">
             {/* Inputs */}
-            <section className="glass rounded-2xl p-7 lg:col-span-5">
+            <section className="glass rounded-2xl p-5 sm:p-7 lg:col-span-5">
               <h2 className="text-sm font-semibold uppercase tracking-[0.15em] text-foreground">
                 Project Inputs
               </h2>
 
               <div className="mt-6 space-y-5">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   <Field label="Location">
                     <FixedValue value="Singapore" />
                   </Field>
@@ -166,8 +166,7 @@ function DashboardPage() {
                     compact
                   />
                   <p className="mt-2 text-[10px] leading-relaxed text-muted-foreground">
-                    Greenery is recorded for future assessment modules and is not included
-                    in the current score.
+                    Recorded for context; not included in the current score.
                   </p>
                 </Field>
               </div>
@@ -206,10 +205,10 @@ function DashboardPage() {
                 </div>
               ) : (
                 <>
-                  <div className="glass relative overflow-hidden rounded-2xl p-7">
+                  <div className="glass relative overflow-hidden rounded-2xl p-5 sm:p-7">
                     {analysing && <div className="shine absolute inset-0 z-10" aria-hidden />}
-                    <div className="flex flex-wrap items-end justify-between gap-3">
-                      <div>
+                    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
+                      <div className="min-w-0">
                         <span className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
                           Climate Responsiveness Score
                         </span>
@@ -221,9 +220,8 @@ function DashboardPage() {
                         </div>
                       </div>
                       <span
-                        className="rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.18em]"
+                        className="shrink-0 text-right text-[10px] uppercase leading-relaxed tracking-[0.14em] text-brand sm:text-[11px] sm:tracking-[0.18em]"
                         style={{
-                          background: "oklch(0.44 0.075 155 / 0.09)",
                           color: "var(--color-brand)",
                         }}
                       >
@@ -267,7 +265,7 @@ function DashboardPage() {
 
                   <div className="grid gap-5 md:grid-cols-2">
                     <div
-                      className="glass rounded-2xl p-6"
+                      className="glass rounded-2xl p-5 sm:p-6"
                       style={{ borderColor: "oklch(0.44 0.075 155 / 0.28)" }}
                     >
                       <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-brand">
@@ -284,7 +282,7 @@ function DashboardPage() {
                     </div>
 
                     <div
-                      className="glass rounded-2xl p-6"
+                      className="glass rounded-2xl p-5 sm:p-6"
                       style={{ borderColor: "oklch(0.50 0.055 130 / 0.28)" }}
                     >
                       <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-brand-3">

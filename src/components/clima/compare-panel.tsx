@@ -81,7 +81,7 @@ export function ComparePanel({
           onClick={evaluate}
           className="brand-gradient mt-6 w-full rounded-xl py-3.5 text-sm font-semibold text-ink transition-transform hover:-translate-y-0.5"
         >
-          Evaluate Option B
+          Analyse Option B
         </button>
       </div>
 
